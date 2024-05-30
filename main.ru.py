@@ -15,21 +15,39 @@ search_box = browser.find_element(By.ID, "searchInput")
 search_box.send_keys(request)
 search_box = browser.find_element(By.ID, 'searchButton')
 search_box.send_keys(Keys.RETURN)
-time.sleep(10)
 
-# paragraphs = browser.find_elements(By.TAG_NAME, "p")
-# #Для перебора пишем цикл
-# for paragraph in paragraphs:
-#  print(paragraph.text)
-#  input()
+while True:
 
-hatnotes = []
-for element in browser.find_elements(By.TAG_NAME, "div"):
-    cl = element.get_attribute("class")
-    if cl == "hatnote navigation-not-searchable":
-     hatnotes.append(element)
+ selection = input('Вы находитесь на выбранной странице, для выбора действия выберите команду:'
+                  ' \n читать параграфы - p, \n перейти на одну из связанных страниц - s, \n '
+                  'выйти из программы - q \n ваш выбор: ')
 
-hatnote = random.choice(hatnotes)
-link = hatnote.find_element(By.TAG_NAME, "a").get_attribute("href")
-browser.get(link)
-time.sleep(10)
+ if selection == 'p':
+    paragraphs = browser.find_elements(By.TAG_NAME, "p")
+    #Для перебора пишем цикл
+    for paragraph in paragraphs:
+        print(paragraph.text)
+        select = input('Читаем следующий параграф y/n?: ')
+        if select == 'y':
+           continue
+        else:
+            break
+    continue
+
+
+ elif selection == 's':
+      hatnotes = []
+      for element in browser.find_elements(By.TAG_NAME, "div"):
+          cl = element.get_attribute("class")
+          if cl == "hatnote navigation-not-searchable":
+           hatnotes.append(element)
+
+      hatnote = random.choice(hatnotes)
+      link = hatnote.find_element(By.TAG_NAME, "a").get_attribute("href")
+      browser.get(link)
+
+      continue
+
+ elif selection == 'q':
+     print('Программа завершена! До новых встреч!')
+     break
